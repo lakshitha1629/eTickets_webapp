@@ -1,0 +1,7 @@
+Admin Login
+ - admin@gmail.com
+ - Coding@1234
+
+User Login
+ - user@gmail.com
+ - Coding@1234
