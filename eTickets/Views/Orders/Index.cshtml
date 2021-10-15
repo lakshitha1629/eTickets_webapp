@@ -1,13 +1,55 @@
 ﻿@model List<Order>
 
-@{ 
+@{
     ViewData["Title"] = "All orders";
 }
 
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div class="container mt-2">
+        <div class="card-deck mb-3 text-center">
+            <div class="card mb-6 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Grand Total</h4>
+                </div>
+                <div class="card-body alert-warning">
+                    <h2 class="card-title pricing-card-title">
+                        @{
+                            double result = 0;
+                        }
+                        @foreach (var order in Model)
+                        {
+                            double s = @order.OrderItems.Select(m => m.Movie.Price * m.Amount).Sum();
+                            result = result + s;
+                        }
+                        $ @result</h2>
+                </div>
+            </div>
+            <div class="card mb-6 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Order Count</h4>
+                </div>
+                <div class="card-body alert-primary">
+                    <h2 class="card-title pricing-card-title">
+                        @{
+                            int orderCount = 0;
+                        }
+                        @foreach (var order in Model)
+                        {
+                            orderCount = orderCount + 1;
+                        }
+                        @orderCount
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<br>
 <div class="row">
     <div class="col-md-8 offset-2">
         <p>
-            <h4>List of all your orders</h4>
+        <h4>List of all your orders</h4>
         </p>
 
         <table class="table">
@@ -25,29 +67,31 @@
             <tbody>
                 @foreach (var order in Model)
                 {
-                <tr>
-                    <td class="align-middle">@order.Id</td>
-                    <td class="align-middle">
-                        <ul style="list-style-type:none">
-                            @foreach (var item in order.OrderItems)
-                            {
-                                <li>
-                                    <div class="alert alert-info" role="alert">
-                                        <span class="badge bg-success">@item.Amount</span> [@item.Price.ToString("c")] - @item.Movie.Name
-                                    </div>
-                                </li>
-                            }
-                        </ul>
-                    </td>
-                    <td class="align-middle">
-                        @order.OrderItems.Select(m => m.Movie.Price * m.Amount).Sum().ToString("c")
-                    </td>
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                    {
-                        <td class="align-middle"> @order.User.FullName </td>
-                    }
+                    <tr>
+                        <td class="align-middle">@order.Id</td>
+                        <td class="align-middle">
+                            <ul style="list-style-type:none">
+                                @foreach (var item in order.OrderItems)
+                                {
+                                    <li>
+                                        <div class="alert alert-info" role="alert">
+                                            <span class="badge bg-success">@item.Amount</span> [@item.Price.ToString("c")] -
+                                            @item.Movie.Name
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @order.OrderItems.Select(m => m.Movie.Price * m.Amount).Sum().ToString("c")
+                        </td>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <td class="align-middle"> @order.User.FullName </td>
+                        }
                     </tr>
                 }
+
             </tbody>
         </table>
 

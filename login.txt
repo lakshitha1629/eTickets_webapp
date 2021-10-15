@@ -1,3 +1,5 @@
+URL --> https://localhost:5001/Movies
+
 Admin Login
  - admin@gmail.com
  - Coding@1234
@@ -5,3 +7,7 @@ Admin Login
 User Login
  - user@gmail.com
  - Coding@1234
+
+PayPal
+sb-243exn8086327@personal.example.com
+2Q#2Jv4H
