@@ -22,7 +22,7 @@
                             double s = @order.OrderItems.Select(m => m.Movie.Price * m.Amount).Sum();
                             result = result + s;
                         }
-                        $ @result</h2>
+                        Rs. @result.ToString("0.00")</h2>
                 </div>
             </div>
             <div class="card mb-6 box-shadow">
@@ -75,7 +75,8 @@
                                 {
                                     <li>
                                         <div class="alert alert-info" role="alert">
-                                            <span class="badge bg-success">@item.Amount</span> [@item.Price.ToString("c")] -
+                                            <span class="badge bg-success">@item.Amount</span> [Rs.@item.Price.ToString("0.00")]
+                                            -
                                             @item.Movie.Name
                                         </div>
                                     </li>
@@ -83,7 +84,7 @@
                             </ul>
                         </td>
                         <td class="align-middle">
-                            @order.OrderItems.Select(m => m.Movie.Price * m.Amount).Sum().ToString("c")
+                            Rs.@order.OrderItems.Select(m => m.Movie.Price * m.Amount).Sum().ToString("0.00")
                         </td>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
